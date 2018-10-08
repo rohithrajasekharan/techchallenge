@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const authRoutes = require('./routes/auth-routes');
+const localAuth = require('./config/local-auth');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const path = require('path');
@@ -22,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/auth', authRoutes);//all authentication routes
 
 
 mongoose.Promise = global.Promise;
