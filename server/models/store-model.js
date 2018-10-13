@@ -6,4 +6,4 @@ const StoreSchema = mongoose.Schema({
   location: String
 });
 
-const Store = module.exports = mongoose.model('store', StoreSchema);
+const Store = module.exports = mongoose.model('Store', StoreSchema);

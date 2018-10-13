@@ -3,6 +3,7 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 const authRoutes = require('./routes/auth-routes');
+const productRoutes = require('./routes/product-routes');
 const localAuth = require('./config/local-auth');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -25,7 +26,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoutes);
-
+app.use('/product', productRoutes);
 
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
