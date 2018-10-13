@@ -19,6 +19,7 @@ const cardFooterStyle = {
     backgroundColor: "transparent"
   },
   cardFooterStats: {
+    cursor: "pointer",
     borderTop: "1px solid #eee",
     marginTop: "20px",
     "& svg": {

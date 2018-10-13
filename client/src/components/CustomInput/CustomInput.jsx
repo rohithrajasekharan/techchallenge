@@ -19,6 +19,7 @@ function CustomInput({ ...props }) {
     labelText,
     id,
     labelProps,
+    onChange,
     inputProps,
     error,
     success
@@ -58,6 +59,7 @@ function CustomInput({ ...props }) {
         }}
         id={id}
         {...inputProps}
+        onChange={(event)=>{onChange(event.target.value)}}
       />
       {error ? (
         <Clear className={classes.feedback + " " + classes.labelRootError} />

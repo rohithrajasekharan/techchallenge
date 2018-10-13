@@ -21,7 +21,7 @@ const Sidebar = ({ ...props }) => {
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  const { classes, color, image, logoText, routes } = props;
+  const { classes, color, image, routes } = props;
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
@@ -84,8 +84,8 @@ const Sidebar = ({ ...props }) => {
           }}
         >
           <div className={classes.sidebarWrapper}>
-            <HeaderLinks />
             {links}
+            <HeaderLinks />
           </div>
           {image !== undefined ? (
             <div
