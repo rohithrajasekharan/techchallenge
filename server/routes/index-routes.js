@@ -4,6 +4,26 @@ const mongoose = require('mongoose');
 const Store = require('../models/store-model');
 const User = require('../models/user-model');
 const Review = require('../models/review-model');
+const Order = require('../models/order-model');
+
+router.post('/availablepoints',(req,res)=>{
+  Order.find({userId:req.body.userId, points: {$gt: 0}, redeemed: false}).then(resp=>{
+    res.json(resp);
+  })
+})
+
+router.post('/redeempoints',(req,res)=>{
+  var points = parseInt(req.body.points)
+  User.findOneAndUpdate({"_id": req.body.userId}, {$set: {points: req.body.points}},{new:true} ).then((resp)=>{
+    Order.findOneAndUpdate({"_id": req.body.orderId}, {$set: {redeemed: true}},{new:true} ).then((resp)=>{
+    if (resp.points==points) {
+      res.send("points updated")
+    }else{
+      res.send("cannot update points")
+    }
+  })
+  })
+})
 
 router.post('/search',(req,res)=>{
     Store.find({$text: {$search: req.body.keyword}}, {score: {$meta: "textScore"}}).sort({score:{$meta:"textScore"}}).then((response)=>{

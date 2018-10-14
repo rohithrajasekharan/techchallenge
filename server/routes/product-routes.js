@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Cart = require('../models/cart-model')
-const User = require('../models/user-model')
+const Cart = require('../models/cart-model');
+const Order = require('../models/order-model');
+const User = require('../models/user-model');
 const Product = require('../models/product-model');
 const Store = require('../models/store-model');
 
@@ -53,6 +54,18 @@ router.post('/addtocart', (req,res)=>{
 }
 )
 })
+router.post('/order', (req,res)=>{
+  let order = new Order({
+    userId : req.body.userId,
+    productId : req.body.productId,
+    quantity: 1,
+    redeemed: false
+  });
+  order.save().then((resp)=>{
+  res.send("added to orders");
+}
+)
+})
 
 //request to get no. of orders in cart
 router.post('/cart/count',(req,res)=>{
@@ -66,6 +79,11 @@ router.post('/cart/count',(req,res)=>{
         res.json(resp)
       })
     })
+    router.post('/order',(req,res)=>{
+        Order.find({userId:req.body.id}).populate('productId').then((resp)=>{
+          res.json(resp)
+        })
+      })
 
 //request to remove item from cart
   router.post('/removefromcart',(req,res)=>{

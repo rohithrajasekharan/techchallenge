@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DetailView from 'views/Offers/DetailView';
 import Button from "components/CustomButtons/Button";
+import Snackbar from "components/Snackbar/Snackbar.jsx";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 class CartComponent extends React.Component {
   state = {
@@ -21,7 +23,8 @@ class CartComponent extends React.Component {
     items:[],
     user:null,
     selected:null,
-    check: false
+    notif: false,
+    notifr: false
   };
   static contextTypes = {
       router: PropTypes.object
@@ -38,7 +41,15 @@ class CartComponent extends React.Component {
       })
     })
   }
-
+handleBuy = (item) => {
+  axios("http://localhost:8080/product/order", {
+    method: "post",
+    data: {id: item._id},
+    withCredentials: true
+  }).then(()=>{
+    this.setState({notif: true});
+  })
+}
   handleBuyClickOpen = (item) => {
     this.setState({ buy: true, selected: item });
   };
@@ -55,13 +66,14 @@ class CartComponent extends React.Component {
       data: {id: item._id},
       withCredentials: true
     }).then(()=>{
+      this.setState({notifr: true});
   window.location.reload();
     })
   }
   render () {
     const { classes } = this.props;
     return (
-
+      <div>
         <div>{!this.state.loading?<GridContainer>
             {this.state.items.map(item=>{
               return(
@@ -77,7 +89,7 @@ class CartComponent extends React.Component {
                         </span>{" "}
 
                       </p><Button color="primary" onClick={()=>this.handleCart(item)}>Remove from Cart</Button>
-                    <Button color="primary" onClick={()=>this.handleBuyClickOpen(item)} style={{marginLeft:"4%"}}>Buy</Button></CardBody>
+                    <Button color="primary" onClick={()=>this.handleBuy(item)} style={{marginLeft:"4%"}}>Buy</Button></CardBody>
                   </Card>
                 </GridItem>
               )
@@ -85,6 +97,24 @@ class CartComponent extends React.Component {
             })}
             {this.state.selected!==null?<DetailView open={this.state.open} id={this.state.selected._id} user={this.state.user} cart={true} selected={this.state.selected.productId} onClose={()=>{this.setState({open:false})}}/>:null}
         </GridContainer>:<CircularProgress style={{marginLeft:"45%",marginRight:"45%",marginTop:45}}/>}</div>
+        <Snackbar
+          place="br"
+          color="success"
+          icon={AddAlert}
+          message="Item bought"
+          open={this.state.notif}
+          closeNotification={() => this.setState({ notif: false })}
+          close
+        />
+        <Snackbar
+          place="br"
+          color="danger"
+          icon={AddAlert}
+          message="Item removed from cart"
+          open={this.state.notifr}
+          closeNotification={() => this.setState({ notifr: false })}
+          close
+        /></div>
     );
   }
 }

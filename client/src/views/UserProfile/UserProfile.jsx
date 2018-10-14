@@ -49,6 +49,30 @@ class UserProfileComponent extends React.Component {
       <div>
         <GridContainer>
           <GridItem xs={12} sm={12} md={8}>
+            <GridContainer>
+            <GridItem xs={12} sm={12} md={6}>
+            <Card profile>
+              <CardBody profile>
+                <h1 className={classes.cardCategory}>25 points</h1>
+                <h6 className={classes.cardTitle}>From: FlipBuy</h6>
+                <Button color="primary" round>
+                  Redeem
+                </Button>
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={6}>
+          <Card profile>
+            <CardBody profile>
+              <h1 className={classes.cardCategory}>10 points</h1>
+              <h6 className={classes.cardTitle}>From: FlipBuy</h6>
+              <Button color="primary" round>
+                Redeem
+              </Button>
+            </CardBody>
+          </Card>
+        </GridItem>
+        </GridContainer>
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             {!this.state.loading?<Card profile>

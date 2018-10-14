@@ -29,13 +29,24 @@ class DetailViewComponent extends React.Component {
   state={
     review: "",
     loading: true,
-    reviews: []
+    reviews: [],
+    notif:false
   }
   handleCart = (item) => {
     axios("http://localhost:8080/product/addtocart", {
       method: "post",
       data: {productId:item._id,userId:this.props.user._id},
       withCredentials: true
+    })
+  }
+  handleBuy = (item) => {
+    this.setState({notif: true});
+    axios("http://localhost:8080/product/order", {
+      method: "post",
+      data: {id: item._id},
+      withCredentials: true
+    }).then(()=>{
+      this.context.router.history.push('/user');
     })
   }
   componentWillMount(){
@@ -84,6 +95,7 @@ class DetailViewComponent extends React.Component {
   render () {
     const { fullScreen,classes,open,selected,onClose,cart,id } = this.props;
   return(
+    <div>
 <div>{selected!==null?<div><Dialog
   fullScreen={fullScreen}
   open={open}
@@ -137,12 +149,12 @@ class DetailViewComponent extends React.Component {
   {cart?<div><Button style={{margin:14}} onClick={()=>this.handleRemoveCart(id)} color="primary">
     Remove from cart
   </Button>
-  <Button style={{margin:14}} onClick={this.handleClose} color="primary" autoFocus>
+  <Button style={{margin:14}} onClick={()=>this.handleBuy(selected)} color="primary" autoFocus>
     Buy
   </Button></div>: <div> <Button style={{margin:14}} onClick={()=>this.handleCart(selected)} color="primary">
       Add to cart
     </Button>
-    <Button style={{margin:14}} onClick={this.handleClose} color="primary" autoFocus>
+    <Button style={{margin:14}} onClick={()=>this.handleBuy(selected)} color="primary" autoFocus>
       Buy
     </Button></div>}
 
@@ -150,7 +162,15 @@ class DetailViewComponent extends React.Component {
 </Dialog>
   </div>:null}
 </div>
-
+<Snackbar
+  place="br"
+  color="success"
+  icon={AddAlert}
+  message="Item bought"
+  open={this.state.notif}
+  closeNotification={() => this.setState({ notif: false })}
+  close
+/></div>
   )
   }
 }
