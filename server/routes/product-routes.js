@@ -2,6 +2,40 @@ const express = require('express');
 const router = express.Router();
 const Cart = require('../models/cart-model')
 const Product = require('../models/product-model');
+const Store = require('../models/store-model');
+
+//to add dummy store details via postman
+router.post('/addstore',(req,res)=>{
+  let name = req.body.name;
+  let location = req.body.location;
+  let newStore = new Store({
+    name: name,
+    location: location
+  });
+  newStore.save().then((resp)=>{
+    res.json(resp);
+  })
+})
+//to add dummy item details via postman
+router.post('/additem',(req,res)=>{
+  let name = req.body.name;
+  let companyId = req.body.companyId;
+  let price = req.body.price;
+  let description = req.body.description;
+  let image = req.body.image;
+  let offer = req.body.offer;
+  let newProduct = new Product({
+    name: name,
+    companyId: companyId,
+    price: price,
+    description: description,
+    image: image,
+    offer: offer
+  });
+  newProduct.save().then((resp)=>{
+    res.json(resp);
+  })
+})
 
 //request to add items to cart
 router.post('/addtocart', (req,res)=>{
@@ -47,3 +81,5 @@ router.post('/cart/count',(req,res)=>{
       }
     })
   })
+
+  module.exports = router;
