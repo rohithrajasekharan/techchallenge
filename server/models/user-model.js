@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+const Store = require('./store-model');
+const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
 	// User Schema
@@ -12,7 +14,8 @@ var UserSchema = mongoose.Schema({
 	},
   password: {
 		type: String
-	}
+	},
+	enrolled: [{type: Schema.Types.ObjectId, ref: 'Store'}]
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);

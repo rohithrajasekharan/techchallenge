@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Cart = require('../models/cart-model')
+const User = require('../models/user-model')
 const Product = require('../models/product-model');
 const Store = require('../models/store-model');
 
@@ -16,6 +17,7 @@ router.post('/addstore',(req,res)=>{
     res.json(resp);
   })
 })
+
 //to add dummy item details via postman
 router.post('/additem',(req,res)=>{
   let name = req.body.name;
@@ -36,7 +38,11 @@ router.post('/additem',(req,res)=>{
     res.json(resp);
   })
 })
-
+router.post('/enroll',(req,res)=>{
+    User.updateOne({"_id":req.body.userId},{$push:{enrolled: req.body.companyId}},{new:true}).then((resp)=>{
+      res.json(resp)
+    })
+})
 //request to add items to cart
 router.post('/addtocart', (req,res)=>{
   let cart = new Cart({

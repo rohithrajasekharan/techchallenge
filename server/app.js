@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const authRoutes = require('./routes/auth-routes');
 const productRoutes = require('./routes/product-routes');
+const indexRoutes = require('./routes/index-routes');
 const localAuth = require('./config/local-auth');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "build")));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use('/',indexRoutes)
 app.use('/auth', authRoutes);
 app.use('/product', productRoutes);
 

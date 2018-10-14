@@ -21,9 +21,9 @@ router.post('/register', (req, res) => {
   });
 });
 //get user by objectid of mogodb
-router.get('/user/:id', (req, res) => {
-  User.getUserByMail(req.params.id, (err, user) => {
-    res.json(user);
+router.post('/enrolled', (req, res) => {
+  User.findById(req.body.userId).populate('enrolled').then((resp)=>{
+    res.json(resp);
   })
 })
 
