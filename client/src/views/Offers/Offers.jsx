@@ -104,5 +104,5 @@ OffersPage.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
-const Offers = withStyles()(OffersPage)
+const Offers = withStyles(null)(OffersPage)
 export default withMobileDialog()(Offers);

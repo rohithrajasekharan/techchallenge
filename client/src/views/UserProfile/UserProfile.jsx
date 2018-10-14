@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -8,7 +9,8 @@ import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-
+import { fetchUser } from 'actions/index';
+import { connect } from 'react-redux';
 import avatar from "assets/img/faces/william.jpg";
 
 const styles = {
@@ -30,35 +32,52 @@ const styles = {
   }
 };
 
-function UserProfile(props) {
-  const { classes } = props;
-  return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card profile>
-            <CardAvatar profile>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={avatar} alt="..." />
-              </a>
-            </CardAvatar>
-            <CardBody profile>
-              <h6 className={classes.cardCategory}>Rohith Rajasekharan</h6>
-              <h4 className={classes.cardTitle}>rohith@gmail.com</h4>
-              <p className={classes.description}>
-              Loyalty card Number: 5asd21r4sdfvscwascz
-              </p>
-              <Button color="primary" round>
-                Edit Profile
-              </Button>
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
-  );
+
+class UserProfileComponent extends React.Component {
+  state = {
+    loading: true,
+    user: null
+  };
+  componentWillMount(){
+    this.props.fetchUser().then((data)=>{
+      this.setState({user:data.payload.data,loading:false})
+    })
+  }
+  render () {
+    const { classes } = this.props;
+    return (
+      <div>
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={8}>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={4}>
+            {!this.state.loading?<Card profile>
+              <CardAvatar profile>
+                <a href="#pablo" onClick={e => e.preventDefault()}>
+                  <img src={avatar} alt="..." />
+                </a>
+              </CardAvatar>
+              <CardBody profile>
+                <h6 className={classes.cardCategory}>{this.state.user.name}</h6>
+                <h4 className={classes.cardTitle}>{this.state.user.email}</h4>
+                <p className={classes.description}>
+                Loyalty card Number: {this.state.user._id}
+                </p>
+                <Button color="primary" round>
+                  Edit Profile
+                </Button>
+              </CardBody>
+            </Card>:null}
+
+          </GridItem>
+        </GridContainer>
+      </div>
+    );
+  }
 }
 
-export default withStyles(styles)(UserProfile);
+function mapStateToProps(state) {
+  return { user: state.user.data }
+}
+const UserProfile = withStyles(styles)(UserProfileComponent);
+export default connect(mapStateToProps, { fetchUser })(UserProfile);

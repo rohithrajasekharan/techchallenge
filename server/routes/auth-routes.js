@@ -12,7 +12,8 @@ router.post('/register', (req, res) => {
   let newUser = new User({
     name: name,
     email: email,
-    password: password
+    password: password,
+    points: 0
   });
   User.createUser(newUser, (err, user) => {
     passport.authenticate('local')(req, res, function () {

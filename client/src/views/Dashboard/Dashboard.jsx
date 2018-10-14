@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
+import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import Store from "@material-ui/icons/Store";
 import DateRange from "@material-ui/icons/DateRange";
 import LocalOffer from "@material-ui/icons/LocalOffer";
@@ -18,14 +19,30 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import Button from "components/CustomButtons/Button";
 import Snackbar from "components/Snackbar/Snackbar.jsx";
 import AddAlert from "@material-ui/icons/AddAlert";
-
+import axios from 'axios';
+import { fetchUser } from 'actions/index';
+import { connect } from 'react-redux';
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
-class Dashboard extends React.Component {
+class DashboardComponent extends React.Component {
   state = {
     value: 0,
-    notif: false
+    notif: false,
+    points: 0,
+    cart: 0
   };
+  componentWillMount(){
+    this.props.fetchUser().then(data=>{
+      this.setState({points:data.payload.data.points})
+      axios("http://localhost:8080/product/cart/count", {
+        method: "post",
+        data: {id: data.payload.data._id},
+        withCredentials: true
+      }).then(resp=>{
+        this.setState({cart:resp.data})
+      })
+    })
+  }
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -41,6 +58,9 @@ class Dashboard extends React.Component {
   }
   handleOffers = () => {
     this.context.router.history.push('/offers');
+  }
+  handleCart = () => {
+    this.context.router.history.push('/cart');
   }
   static contextTypes = {
       router: PropTypes.object
@@ -58,7 +78,7 @@ class Dashboard extends React.Component {
                 </CardIcon>
                 <p className={classes.cardCategory}>Balance</p>
                 <h3 className={classes.cardTitle}>
-                  49 <small>points</small>
+                  {this.state.points} <small>points</small>
                 </h3>
               </CardHeader>
               <CardFooter stats onClick={()=>this.handleTransaction()}>
@@ -82,6 +102,23 @@ class Dashboard extends React.Component {
                 <div className={classes.stats}>
                   <LocalOffer />
                   View offers
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="primary" stats icon>
+                <CardIcon color="primary">
+                  <ShoppingCart />
+                </CardIcon>
+                <p className={classes.cardCategory}>Items in Cart</p>
+                <h3 className={classes.cardTitle}>{this.state.cart}</h3>
+              </CardHeader>
+              <CardFooter stats onClick={()=>this.handleCart()}>
+                <div className={classes.stats}>
+                  <ShoppingCart />
+                  View Cart
                 </div>
               </CardFooter>
             </Card>
@@ -212,8 +249,12 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
+DashboardComponent.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+function mapStateToProps(state) {
+  return { user: state.user.data }
+}
+const Dashboard = withStyles(dashboardStyle)(DashboardComponent);
+export default connect(mapStateToProps, { fetchUser })(Dashboard);

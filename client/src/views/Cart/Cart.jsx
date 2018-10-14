@@ -35,4 +35,4 @@ function Cart(props) {
   );
 }
 
-export default withStyles()(Cart);
+export default withStyles(null)(Cart);

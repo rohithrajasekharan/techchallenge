@@ -48,7 +48,7 @@ router.post('/addtocart', (req,res)=>{
   let cart = new Cart({
     userId : req.body.userId,
     productId : req.body.productId,
-    quantity: req.body.quantity
+    quantity: 1
   });
   cart.save().then((resp)=>{
   res.send("added to cart");
@@ -58,7 +58,7 @@ router.post('/addtocart', (req,res)=>{
 
 //request to get no. of orders in cart
 router.post('/cart/count',(req,res)=>{
-    Cart.find({userId:req.body.id}).count().then((resp)=>{
+    Cart.find({userId:req.body.id}).countDocuments().then((resp)=>{
       res.json(resp)
     })
   })

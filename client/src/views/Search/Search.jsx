@@ -27,4 +27,4 @@ function SearchPage(props){
   )
 }
 
-export default withStyles()(SearchPage);
+export default withStyles(null)(SearchPage);

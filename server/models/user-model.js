@@ -15,6 +15,9 @@ var UserSchema = mongoose.Schema({
   password: {
 		type: String
 	},
+	points: {
+		type: Number
+	},
 	enrolled: [{type: Schema.Types.ObjectId, ref: 'Store'}]
 });
 
