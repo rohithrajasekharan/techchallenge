@@ -122,7 +122,7 @@ class DashboardComponent extends React.Component {
                 <GridContainer><GridItem><img style={{maxHeight:200,maxWidth:80}} src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""/>
               </GridItem><GridItem><h4 className={classes.cardTitleWhite}>Flipbuy</h4></GridItem></GridContainer></CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Grab the best offers and discounts on fashion wears</h4>
+                <h4 className={classes.cardTitle}>Grab the best offers and discounts on electronics and accessories</h4>
                 <p className={classes.cardCategory}>Upto{" "}
                   <span className={classes.successText}>
                      55%
@@ -143,16 +143,16 @@ class DashboardComponent extends React.Component {
                 <GridContainer><GridItem><img style={{maxHeight:200,maxWidth:80}} src="https://www.crearlogogratisonline.com/images/crearlogogratis_1024x1024_01.png" alt=""/>
               </GridItem><GridItem><h4 className={classes.cardTitleWhite}>SmartShop</h4></GridItem></GridContainer></CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Grab the best offers and discounts on fashion wears</h4>
+                <h4 className={classes.cardTitle}>Best fashion wears at amazing prices</h4>
                 <p className={classes.cardCategory}>Upto{" "}
                   <span className={classes.successText}>
-                     55%
+                     15%
                   </span>{" "}
-                  discount for active enrolled members.
+                  cashback for enrolled members.
                 </p>
               </CardBody>
               <CardFooter chart>
-                <Button color="danger" onClick={()=>this.handleEnroll()} href="#" className={classes.title}>
+                <Button color="danger" onClick={()=>this.handleEnroll("5bc37c2f7e6de32a9816cc8e")} href="#" className={classes.title}>
                   Enroll now
                 </Button>
               </CardFooter>
@@ -164,16 +164,16 @@ class DashboardComponent extends React.Component {
                 <GridContainer><GridItem><img style={{maxHeight:200,maxWidth:80}} src="https://www.seoclerk.com/pics/551577-1HDYF31502458653.jpg" alt=""/>
               </GridItem><GridItem><h4 className={classes.cardTitleWhite}>MyCart</h4></GridItem></GridContainer></CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Grab the best offers and discounts on fashion wears</h4>
-                <p className={classes.cardCategory}>Upto{" "}
+                <h4 className={classes.cardTitle}>Amazing offers and discounts on fashion wears</h4>
+                <p className={classes.cardCategory}>
                   <span className={classes.successText}>
-                     55%
+                     Daily
                   </span>{" "}
-                  discount for active enrolled members.
+                  rewards for people who promote good products.
                 </p>
               </CardBody>
               <CardFooter chart>
-                <Button color="warning" onClick={()=>this.handleEnroll()} href="#" className={classes.title}>
+                <Button color="warning" onClick={()=>this.handleEnroll("5bc37c667e6de32a9816cc8f")} href="#" className={classes.title}>
                   Enroll now
                 </Button>
               </CardFooter>
@@ -186,16 +186,13 @@ class DashboardComponent extends React.Component {
                   <GridItem xs={12} sm={12} md={4}><img style={{maxHeight:200,maxWidth:80}} src="https://i.ytimg.com/vi/XY5CEnS-qwk/maxresdefault.jpg" alt=""/>
               </GridItem><GridItem xs={12} sm={12} md={8}><h4 style={{marginLeft:20}} className={classes.cardTitleWhite}>Autumn Purchase</h4></GridItem></GridContainer></CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Grab the best offers and discounts on fashion wears</h4>
-                <p className={classes.cardCategory}>Upto{" "}
-                  <span className={classes.successText}>
-                     55%
-                  </span>{" "}
-                  discount for active enrolled members.
+                <h4 className={classes.cardTitle}>Best quality drinks and beverages</h4>
+                <p className={classes.cardCategory}>
+                  Amazing offers awaiting for you.
                 </p>
               </CardBody>
               <CardFooter chart>
-                <Button color="info" onClick={()=>this.handleEnroll()} href="#" className={classes.title}>
+                <Button color="info" onClick={()=>this.handleEnroll("5bc37c9f7e6de32a9816cc90")} href="#" className={classes.title}>
                   Enroll now
                 </Button>
               </CardFooter>
@@ -207,16 +204,16 @@ class DashboardComponent extends React.Component {
                 <GridContainer><GridItem><img style={{maxHeight:200,maxWidth:80}} src="https://99designs-start-attachments.imgix.net/alchemy-pictures/2016%2F02%2F22%2F04%2F24%2F31%2Fb7bd820a-ecc0-4170-8f4e-3db2e73b0f4a%2F550250_artsigma.png?auto=format&ch=Width%2CDPR&w=250&h=250" alt=""/>
               </GridItem><GridItem><h4 className={classes.cardTitleWhite}>ShopMate</h4></GridItem></GridContainer></CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Grab the best offers and discounts on fashion wears</h4>
+                <h4 className={classes.cardTitle}>Grab the best offers and discounts on cosmetics</h4>
                 <p className={classes.cardCategory}>Upto{" "}
                   <span className={classes.successText}>
-                     55%
+                     30
                   </span>{" "}
-                  discount for active enrolled members.
+                  points a month for active enrolled members.
                 </p>
               </CardBody>
               <CardFooter chart>
-                <Button color="primary" onClick={()=>this.handleEnroll()} href="#" className={classes.title}>
+                <Button color="primary" onClick={()=>this.handleEnroll("5bc37d1e7e6de32a9816cc91")} href="#" className={classes.title}>
                   Enroll now
                 </Button>
               </CardFooter>

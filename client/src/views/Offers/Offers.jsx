@@ -69,7 +69,7 @@ class OffersPage extends React.Component {
     console.log(item);
     axios("http://localhost:8080/product/addtocart", {
       method: "post",
-      data: {productId:item[0]._id,userId:this.state.user._id},
+      data: {productId:item._id,userId:this.state.user._id},
       withCredentials: true
     })
     this.setState({ notif: true, selected: item })
@@ -85,18 +85,18 @@ class OffersPage extends React.Component {
             <InfoOutlined style={{marginRight:12}}/><span>The images used are stock photos with proper attribution</span>
           </Info>
         </div><br/><GridContainer>
-        {this.state.items.map((item)=>{
-          return(<GridItem xs={12} sm={6} md={4} key={item[0]._id}>
+        {this.state.items[0].map((item)=>{
+          return(<GridItem xs={12} sm={6} md={4} key={item._id}>
             <Card>
               <CardBody>
-                <img style={{width:"100%"}} src={item[0].image} alt=""/>
-            <h4 className={classes.cardTitle} style={{cursor:"pointer"}} onClick={()=>this.setState({selected:item,open:true})}>{item[0].name}</h4>
-              <GridContainer><GridItem>Price: </GridItem><GridItem><Warning>{item[0].price}</Warning></GridItem></GridContainer>
+                <img style={{width:"100%"}} src={item.image} alt=""/>
+            <h4 className={classes.cardTitle} style={{cursor:"pointer"}} onClick={()=>this.setState({selected:item,open:true})}>{item.name}</h4>
+              <GridContainer><GridItem>Price: </GridItem><GridItem><Warning>{item.price}</Warning></GridItem></GridContainer>
                 <p className={classes.cardCategory}>
                   <span style={{color:"#228B22"}}>
-                   {item[0].offer}
+                   {item.offer}
                  </span>
-               </p><Info>{item[0].companyId.name}</Info><br/><Button color="primary" onClick={()=>this.handleCart(item)}>Add to Cart</Button>
+               </p><Info>{item.companyId.name}</Info><br/><Button color="primary" onClick={()=>this.handleCart(item)}>Add to Cart</Button>
              <Button color="primary" onClick={()=>this.handleBuyClickOpen(item)} style={{marginLeft:"4%"}}>Buy</Button></CardBody>
             </Card>
           </GridItem>)
@@ -126,7 +126,7 @@ class OffersPage extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
-      {this.state.selected!==null?<DetailView open={this.state.open} user={this.state.user} handleCart={()=>this.handleCart(this.state.selected)} cart={false} selected={this.state.selected[0]} onClose={()=>{this.setState({open:false})}}/>
+      {this.state.selected!==null?<DetailView open={this.state.open} user={this.state.user} handleCart={()=>this.handleCart(this.state.selected)} cart={false} selected={this.state.selected} onClose={()=>{this.setState({open:false})}}/>
 :null}
 
       <Snackbar
