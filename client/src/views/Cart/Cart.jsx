@@ -11,14 +11,15 @@ import { fetchUser } from 'actions/index';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import DetailView from 'views/Offers/DetailView';
 import Button from "components/CustomButtons/Button";
 
 class CartComponent extends React.Component {
   state = {
     loading:true,
     items:[],
-    user:null
+    user:null,
+    selected:null
   };
   componentWillMount(){
     this.props.fetchUser().then(data=>{
@@ -32,6 +33,24 @@ class CartComponent extends React.Component {
       })
     })
   }
+
+  handleBuyClickOpen = (item) => {
+    this.setState({ buy: true, selected: item });
+  };
+
+  handleBuyClose = () => {
+    this.setState({ buy: false });
+  };
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+  handleCart = (item) => {
+    axios("http://localhost:8080/product/removefromcart", {
+      method: "post",
+      data: {id: item._id},
+      withCredentials: true
+    })
+  }
   render () {
     const { classes } = this.props;
     return (
@@ -43,21 +62,21 @@ class CartComponent extends React.Component {
                   <Card>
                     <CardBody>
                       <img style={{width:"100%"}} src={item.productId.image} alt=""/>
-                  <h4 className={classes.cardTitle} style={{cursor:"pointer"}}>{item.productId.name}</h4>
+                  <h4 className={classes.cardTitle} style={{cursor:"pointer"}} onClick={()=>this.setState({selected:item,open:true})}>{item.productId.name}</h4>
                     <GridContainer><GridItem>Price: </GridItem><GridItem><Warning>{item.productId.price}</Warning></GridItem></GridContainer>
                       <p className={classes.cardCategory}>
                         <span style={{color:"#228B22"}}>
                          {item.productId.offer}
                         </span>{" "}
 
-                      </p><Button color="primary" style={{marginRight:"4%"}}>Buy</Button>
-                      <Button color="primary">Remove from Cart</Button></CardBody>
+                      </p><Button color="primary" onClick={()=>this.handleCart(item)}>Remove from Cart</Button>
+                    <Button color="primary" onClick={()=>this.handleBuyClickOpen(item)} style={{marginLeft:"4%"}}>Buy</Button></CardBody>
                   </Card>
                 </GridItem>
               )
 
             })}
-
+            {this.state.selected!==null?<DetailView open={this.state.open} id={this.state.selected._id} user={this.state.user} cart={true} selected={this.state.selected.productId} onClose={()=>{this.setState({open:false})}}/>:null}
         </GridContainer>:<CircularProgress style={{marginLeft:"45%",marginRight:"45%",marginTop:45}}/>}</div>
     );
   }

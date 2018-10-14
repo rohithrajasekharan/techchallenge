@@ -67,14 +67,10 @@ router.post('/cart/count',(req,res)=>{
 
 //request to remove item from cart
   router.post('/removefromcart',(req,res)=>{
-    var userid=req.body.userid;
-    var productid=req.body.productid;
-    Cart.deleteOne({userId:userid, productId: productid}, (err, product)=>{
-      if (err) {
-        res.send("product not deleted");
-      }else{
-        res.send("product removed");
-      }
+    Cart.deleteOne({_id:req.body.id}, (err, item)=>{
+      console.log(req.body.id);
+      console.log(err, item);
+        res.send('deleted')
     })
   })
 
@@ -87,6 +83,12 @@ router.post('/cart/count',(req,res)=>{
       }else{
         res.send("cannot update quantity")
       }
+    })
+  })
+
+  router.post('/list',(req,res)=>{
+    Product.find({ 'companyId': req.body.companyId }).populate('companyId').then((resp)=>{
+      res.json(resp);
     })
   })
 
