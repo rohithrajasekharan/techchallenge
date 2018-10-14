@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const Store = require('../models/store-model');
 const User = require('../models/user-model');
 
-router.get('/search',(req,res)=>{
-    Store.find({$text: {$search: req.query.keyword}}, {score: {$meta: "textScore"}}).sort({score:{$meta:"textScore"}}).then((response)=>{
+router.post('/search',(req,res)=>{
+    Store.find({$text: {$search: req.body.keyword}}, {score: {$meta: "textScore"}}).sort({score:{$meta:"textScore"}}).then((response)=>{
       res.json(response);
     })
 

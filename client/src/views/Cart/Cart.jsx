@@ -39,7 +39,7 @@ class CartComponent extends React.Component {
         <div>{!this.state.loading?<GridContainer>
             {this.state.items.map(item=>{
               return(
-                <GridItem xs={12} sm={6} md={4}>
+                <GridItem xs={12} sm={6} md={4} key={item._id}>
                   <Card>
                     <CardBody>
                       <img style={{width:"100%"}} src={item.productId.image} alt=""/>
