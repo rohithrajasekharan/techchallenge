@@ -3,6 +3,7 @@ export const LOGIN_USER = 'LOGIN_USER';
 export const CREATE_USER = 'CREATE_USER';
 export const FETCH_USER = 'FETCH_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const ENROLL_USER = 'ENROLL_USER';
 
 export function logoutUser(){
   const request = axios({
@@ -30,6 +31,19 @@ export function createUser(props) {
   }
 }
 
+export function enrollUser(props) {
+  const request = axios({
+    withCredentials: true,
+  method: 'post',
+  url: 'http://localhost:8080/enroll',
+  data: props
+  });
+
+  return{
+    type: ENROLL_USER,
+    payload: request
+  }
+}
 
 export function loginUser(props) {
   const request = axios({

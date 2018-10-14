@@ -38,11 +38,7 @@ router.post('/additem',(req,res)=>{
     res.json(resp);
   })
 })
-router.post('/enroll',(req,res)=>{
-    User.updateOne({"_id":req.body.userId},{$push:{enrolled: req.body.companyId}},{new:true}).then((resp)=>{
-      res.json(resp)
-    })
-})
+
 //request to add items to cart
 router.post('/addtocart', (req,res)=>{
   let cart = new Cart({
@@ -62,6 +58,12 @@ router.post('/cart/count',(req,res)=>{
       res.json(resp)
     })
   })
+
+  router.post('/cart',(req,res)=>{
+      Cart.find({userId:req.body.id}).populate('productId').then((resp)=>{
+        res.json(resp)
+      })
+    })
 
 //request to remove item from cart
   router.post('/removefromcart',(req,res)=>{
