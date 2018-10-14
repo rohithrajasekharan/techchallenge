@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -19,8 +20,12 @@ class CartComponent extends React.Component {
     loading:true,
     items:[],
     user:null,
-    selected:null
+    selected:null,
+    check: false
   };
+  static contextTypes = {
+      router: PropTypes.object
+    };
   componentWillMount(){
     this.props.fetchUser().then(data=>{
       this.setState({user:data.payload.data})
@@ -49,6 +54,8 @@ class CartComponent extends React.Component {
       method: "post",
       data: {id: item._id},
       withCredentials: true
+    }).then(()=>{
+  window.location.reload();
     })
   }
   render () {

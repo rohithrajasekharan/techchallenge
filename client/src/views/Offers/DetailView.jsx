@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Info from "components/Typography/Info.jsx";
+import Primary from "components/Typography/Primary.jsx";
+import Quote from "components/Typography/Quote.jsx";
 import Warning from "components/Typography/Warning.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -15,28 +17,70 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Snackbar from "components/Snackbar/Snackbar.jsx";
 import AddAlert from "@material-ui/icons/AddAlert";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchUser } from 'actions/index';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import withStyles from "@material-ui/core/styles/withStyles";
+import TextField from '@material-ui/core/TextField';
 
-class DetailView extends React.Component {
+class DetailViewComponent extends React.Component {
+  state={
+    review: "",
+    loading: true,
+    reviews: []
+  }
   handleCart = (item) => {
     axios("http://localhost:8080/product/addtocart", {
       method: "post",
       data: {productId:item._id,userId:this.props.user._id},
       withCredentials: true
     })
-    this.setState({ notif: true, selected: item })
+  }
+  componentWillMount(){
+    this.getReview();
+  }
+  getReview = ()=>{
+    axios("http://localhost:8080/getreviews", {
+      method: "post",
+      data: {productId:this.props.selected._id},
+      withCredentials: true
+    }).then((resp)=>{
+      this.setState({reviews: resp.data,loading: false})
+    })
   }
   handleRemoveCart = (id) => {
     axios("http://localhost:8080/product/removefromcart", {
       method: "post",
       data: {id:id},
       withCredentials: true
+    }).then(()=>{
+        window.location.reload();
     })
   }
+  handleSubmit = () => {
+    axios("http://localhost:8080/addreview", {
+      method: "post",
+      data: {name:this.props.user.name,productId:this.props.selected._id,review:this.state.review},
+      withCredentials: true
+    }).then(()=>{
+        this.getReview();
+        this.setState({review:""})
+    })
+  }
+  addreview = (username,productId) => {
+    axios("http://localhost:8080/addreview", {
+      method: "post",
+      data: {name:username,productId:productId,review:this.state.review},
+      withCredentials: true
+    }).then(()=>{
+
+    })
+  }
+  static contextTypes = {
+      router: PropTypes.object
+    };
   render () {
     const { fullScreen,classes,open,selected,onClose,cart,id } = this.props;
   return(
@@ -63,7 +107,31 @@ class DetailView extends React.Component {
    </p><Info>{selected.companyId.name}</Info>
 </GridItem>
 </GridContainer>
-
+<GridContainer>
+  <GridItem xs={12} sm={6} md={9} >
+    <TextField
+          id="standard-multiline-flexible"
+          label="Write a review of the product."
+          multiline
+          rows="3"
+          fullWidth
+          value={this.state.review}
+          onChange={(event)=>{this.setState({review:event.target.value})}}
+          className={classes.textField}
+          margin="normal"
+        />
+</GridItem>
+<GridItem xs={12} sm={6} md={3} >
+<Button style={{marginTop:60}} color="primary" round onClick={()=>this.handleSubmit()}>
+  Submit
+</Button>
+</GridItem>
+</GridContainer><br/><br/>
+{this.state.loading?<CircularProgress style={{marginLeft:"45%",marginRight:"45%",marginTop:45}}/>:<div>
+{this.state.reviews.map(msg=>{
+  return(<div><Primary>{msg.name}</Primary><h8>{msg.review}</h8><br/><br/></div>)
+})}
+</div>}
 </DialogContent>
 <DialogActions>
   {cart?<div><Button style={{margin:14}} onClick={()=>this.handleRemoveCart(id)} color="primary">
@@ -86,5 +154,5 @@ class DetailView extends React.Component {
   )
   }
 }
-
+const DetailView = withMobileDialog()(DetailViewComponent)
 export default withStyles(null)(DetailView);

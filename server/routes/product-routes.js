@@ -26,13 +26,15 @@ router.post('/additem',(req,res)=>{
   let description = req.body.description;
   let image = req.body.image;
   let offer = req.body.offer;
+  let points = req.body.points;
   let newProduct = new Product({
     name: name,
     companyId: companyId,
     price: price,
     description: description,
     image: image,
-    offer: offer
+    offer: offer,
+    points: points
   });
   newProduct.save().then((resp)=>{
     res.json(resp);

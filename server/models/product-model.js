@@ -8,7 +8,8 @@ const ProductSchema = mongoose.Schema({
 	price: Number,
 	description: String,
 	image: String,
-  offer: String
+  offer: String,
+	points: Number
 });
 
 const Product = module.exports = mongoose.model('Product', ProductSchema);

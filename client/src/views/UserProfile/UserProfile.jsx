@@ -11,7 +11,7 @@ import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import { fetchUser } from 'actions/index';
 import { connect } from 'react-redux';
-import avatar from "assets/img/faces/william.jpg";
+import avatar from "assets/img/faces/acc.jpg";
 
 const styles = {
   cardCategoryWhite: {
